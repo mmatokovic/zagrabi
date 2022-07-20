@@ -1,64 +1,99 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Zagrabi
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Zagrabi is Full Stack Application.
 
-## About Laravel
-
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
-
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+* [Installation & Setup](#installation--setup)
+    *[Configuring A Bash Alias](#configuring-a-bash-alias)
+* [Technology stack](#technology-stack)
+* [Topology](#topology)
+    * [Database: Topology](#database-topology)
+* [Useful Commands](#useful-commands)
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+## Installation & Setup
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Before we start and [install](https://laravel.com/docs/9.x/installation) a new Laravel application on your Windows machine, make sure to install [Docker Desktop](https://www.docker.com/products/docker-desktop). Next, you should ensure that Windows Subsystem for Linux 2 (WSL2) is installed and enabled.  
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Laravel Sail is automatically installed with all new Laravel applications.
 
-## Laravel Sponsors
+### Configuring A Bash Alias  
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```
+vim ~/.bashrc
+alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
+alias sail='bash vendor/bin/sail'
+alias art='sail php artisan'
+source ~/.bashrc
+```
 
-### Premium Partners
+## Technology Stack
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+<!---GraphQL -Lighthouse-php -->
+RestAPI
 
-## Contributing
+## Topology
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Database: Topology
 
-## Code of Conduct
+![database schema](https://raw.githubusercontent.com/mmatokovi/zagrabi/master/storage/app/images/database_schema.png)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Useful Commands
 
-## Security Vulnerabilities
+```
+sail up d
+sail php artisan route:list
+sail php artisan make:policy UserPolicy --model=User
+sail php artisan make:model StorageArea -mc f
+sail php artisan make:seeder ItemSeeder
+sail php artisan db:seed --class=ItemSeeder
+sail php artisan migrate:fresh
+sail php artisan db:seed
+sail php artisan thinker
+sail php artisan test
+sail php artisan --version
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Useful Commands
+Possible problem fix for:  
+`Module source URI is not allowed in this document: “http://0.0.0.0:5173/@vite/client”. login:19:1`
 
-## License
+`Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource at http://0.0.0.0:5173/resources/js/app.js. (Reason: CORS request did not succeed). Status code: (null).`
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+`Module source URI is not allowed in this document: “http://0.0.0.0:5173/resources/js/app.js”.`
+
+<details>
+    <summary>Solution</summary>
+
+![laravel-vite-issue](https://laracasts.com/discuss/channels/vite/laravel-vite-issue?page=1&replyId=807498)
+
+```md
+I found the issue with myself was that you have to be editing the files in the docker container and running npm run dev on the same connection
+
+I simply connected to the docker container with VS Code (plus docker ext), ran the vite within the VS Code terminal and then when I edit and save a file it automatically updated
+
+```
+</details>
+
+
+
+<!---
+composer require nuwave/lighthouse
+
+composer require --dev mbezhanov/laravel-faker-provider-collection
+php artisan vendor:publish --tag=lighthouse-schema
+-->
+
+
+<!--- 0Auth.zagrabi.com/token
+Header-
+    Account
+Body-
+    client_id
+    client_Secret
+    grant_type
+res-
+    access_token
+    token_type:Berier
+    expires_in:3600
+-->
