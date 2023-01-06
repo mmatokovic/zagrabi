@@ -13,6 +13,12 @@ Laravel is accessible, powerful, and provides tools required for large, robust a
 
 ## Installation & Setup
 
+if not promp for pass use  
+```
+sudo su curl -s "https://laravel.build/example-app" | bash
+```
+
+
 Before we start and [install](https://laravel.com/docs/9.x/installation) a new Laravel application on your Windows machine, make sure to install [Docker Desktop](https://www.docker.com/products/docker-desktop). Next, you should ensure that Windows Subsystem for Linux 2 (WSL2) is installed and enabled.  
 
 Laravel Sail is automatically installed with all new Laravel applications.
